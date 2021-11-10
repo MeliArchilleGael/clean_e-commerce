@@ -5,7 +5,7 @@
 					<h2>IDENTIFICATION</h2>
 				</header>
                
-            <form action="/clean_e-commerce/login/checkLogin" method="post">
+            <form action="<?= URL.'/login/checkLogin' ?> " method="post">
 				<label for="email">Email</label>
                 <input type="text" name="email" placeholder="email" required="required"/>
                 

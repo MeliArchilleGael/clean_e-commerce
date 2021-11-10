@@ -6,6 +6,8 @@ use App\Model;
 //constante globales
 define('ROOT',str_replace('index.php', '', $_SERVER['SCRIPT_FILENAME']));
 
+define('URL', '/clean_e-commerce');
+
 //on separe les parametres de l'url
 $params = explode('/',$_GET['p']);
 

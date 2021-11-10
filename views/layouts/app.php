@@ -4,8 +4,8 @@
 <head>
     <meta charset="utf-8">
 
-    <link href="<?='/clean_e-commerce/public/assets/css/styleconnect.css' ?>" rel="stylesheet">
-    <link href="<?='/clean_e-commerce/public/assets/css/bootstrap.min.css' ?>" rel="stylesheet">
+    <link href="<?= URL.'/public/assets/css/styleconnect.css' ?>" rel="stylesheet">
+    <link href="<?= URL.'/public/assets/css/bootstrap.min.css' ?>" rel="stylesheet">
 
     <style>
         h4 {
@@ -25,7 +25,7 @@
     <! /--============end Body content start=============-->
 
 
-        <script src="<?='/clean_e-commerce/public/assets/js/bootstrap.bundle.min.js' ?>"></script>
+        <script src="<?= URL.'/public/assets/js/bootstrap.bundle.min.js' ?>"></script>
 </body>
 
 </html>
