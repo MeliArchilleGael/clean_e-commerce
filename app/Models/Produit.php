@@ -1,50 +1,72 @@
 <?php
+namespace App\Models;
 
-	require_once "DBconnect.php";
+use App\Model;
 	
-	class Produit{
+	class Produit extends Model {
 		
-		private $ref_prod;
+		/*private $ref_prod;
 		private $id_cat;
 		private $id_pers;  // identifiant du prestataire ou vendeur
 		private $labels;
 		private $prix;
 		private $quantite;
 		private $description;
-		private $image_prod;
+		private $image_prod;*/
+
+		public $ref_prod;
+		public $id_cat;
+		public $id_pers;  // identifiant du prestataire ou vendeur
+		public $labels;
+		public $prix;
+		public $quantite;
+		public $description;
+		public $image_prod;
 		
-		public function __construct($ref, $id_cat, $id_pers, $labels, $prix, $quantite, $description, $image_prod){
+		public function __construct(){
 			
-			$this->ref_prod = $ref;
-			$this->id_cat = $id_cat;
-			$this->id_pers = $id_pers;
-			$this->labels = $labels;
-			$this->prix = $prix;
-			$this->quantite = $quantite;
-			$this->description = $description;
-			$this->image_prod = $image_prod;
-			
-			$db = new Database();
+			//pour la base de donneé 
+			$this->table = 'PRODUIT';
+			$this->primaryKey = 'REF_PROD';
+
+			/*
+				Avec ceci on etablie la connection a la base de donnée
+				et on peut utiliser la variale ($this->_connexion) de la classe mere pour executer les requetes 
+			*/
+			$this->getConnection();
 			
 		}
 
 		
-		
-		public function ajouter_produit($ref, $id_cat, $id_pers, $labels, $prix, $quantite, $description, $image_prod){
+		/**
+		 * insere un produit et retourne: 
+		 * 1 : Le Produit a été ajouté avec success
+		 * 0 : Erreur d'insertion
+		 * -1 : Erreur champs vide
+		 */
+		public function ajouter_produit(){
 			
-			if(!empty(trim($id_pers)) && !empty(trim($id_cat)) && !empty(trim($ref)) && !empty(trim($labels)) && !empty(trim($prix)) && !empty(trim($quantite)) && !empty(trim($description)) && !empty(trim($image_prod))){
-				$id_cat = (int)$id_cat;
-				$id_pers = (int)$id_pers;
-				$prix = (int)$prix;
-				$quantite = (int)$quantite;
-				$state = $db->insert("CALL ajouter_produit_par_categorie('$ref', '$id_cat', '$id_pers', '$labels', '$prix', '$quantite', '$description', '$image')");
+			if(!empty(trim($this->id_pers)) && 
+			!empty(trim($this->id_cat)) && 
+			!empty(trim($this->ref)) && 
+			!empty(trim($this->labels)) && 
+			!empty(trim($this->prix)) && 
+			!empty(trim($this->quantite)) && 
+			!empty(trim($this->description)) && 
+			!empty(trim($this->image_prod)))
+			{
+				$id_cat = (int)$this->id_cat;
+				$id_pers = (int)$this->id_pers;
+				$prix = (int)$this->prix;
+				$quantite = (int)$this->quantite;
+				$state = $this->_connexion->insert("CALL ajouter_produit_par_categorie('$this->ref_prod', '$id_cat', '$id_pers', '$this->labels', '$prix', '$quantite', '$this->description', '$this->image_prod')");
 				if($state){
-					echo "Le Produit a été ajouté avec success";
+					return 1;
 				}else{
-					echo "Erreur d'insertion";
+					return 0;
 				}
 			}else{
-				echo "Erreur champs vide";
+				return -1;
 			}
 			
 			
@@ -53,23 +75,27 @@
 		
 		public function afficher_produit($id_cat){
 			$id_cat = (int)$id_cat;
-			$result = $db->query("CALL liste_produits_categories('$id_cat')");
+			$result = $this->_connexion->query("CALL liste_produits_categories('$id_cat')");
 			var_dump($result);
 			return $result;
 		}
 		
-		
+		/**
+		 * Modifie les information du produit et retourne 
+		 * 1 : Le produit a été modifié avec success
+		 * 0 : Erreur de modifications
+		 */
 		public function modifier_produit($ref, $id_cat, $id_pers, $labels, $prix, $quantite, $description, $image){
 			if(!empty(trim($labels)) && !empty(trim($prix)) && !empty(trim($quantite)) && !empty(trim($description)) && !empty(trim($image)) ){
 				$id_cat = (int)$id_cat;
 				$id_pers = (int)$id_pers;
 				$prix = (int)$prix;
 				$quantite = (int)$quantite;
-				$state = $db->update("CALL modifier_produit('$ref','$id_cat','$id_pers','$labels','$prix','$quantite','$description','$image')");
+				$state = $this->_connexion->update("CALL modifier_produit('$ref','$id_cat','$id_pers','$labels','$prix','$quantite','$description','$image')");
 				if($state){
-					echo "Le produit a été modifié avec success";
+					return 1;
 				}else{
-					echo "Erreur de modifications";
+					return 0;
 				}
 			}
 		}
@@ -144,8 +170,3 @@
 		
 
 	}
-
-
-
-
-?>

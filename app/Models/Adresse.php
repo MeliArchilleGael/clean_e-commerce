@@ -4,18 +4,19 @@
 	
 	class Adresse extends Model{
 
-		private $id_pers;
+		/*private $id_pers;
 		private $adr_voie;
 		private $adr_cp;
 		private $adr_ville;
-		private $id_adr;
+		private $id_adr;*/
+
+		public $id_pers;
+		public $adr_voie;
+		public $adr_cp;
+		public $adr_ville;
+		public $id_adr;
 		
-		public function __construct($id_pers, $adr_voie, $adr_cp, $adr_ville){
-			
-			$this->id_pers = $id_pers;
-			$this->adr_voie = $adr_voie;
-			$this->adr_cp = $adr_cp;
-			$this->adr_ville = $adr_ville;
+		public function __construct(){
 			
 			//pour la base de donneé 
 			$this->table = 'ADDRESSE';
@@ -29,7 +30,10 @@
 		}
 		
 		/**
-		 * function pour inserer un element dans la DB
+		 * function pour inserer un element dans la DB and return:
+		 * 1 : L'adresse a été ajoutée avec success
+		 * 0 : Erreur d'insertion
+		 * -1 : Erreur champs vides
 		 */
 		public function insert(){
 			if(!empty(trim($this->id_pers)) && 
@@ -38,24 +42,27 @@
 				!empty(trim($this->ville)))
 			{
 
-				$id_pers = (int)$this->id_pers;
 				$state = $this->_connexion->insert("CALL inserer_addresse(NULL,'$this->adr_voie','$this->adr_cp','$this->adr_ville')");
 				
 				if($state){
-					echo "L'adresse a été ajoutée avec success";
+					return 1;
 				}else{
-					echo "Erreur d'insertion";
+					return 0;
 				}
 			}else{
-				echo "Erreur champs vides";
+				return -1;
 			}
 		}
 		
 		/**
 		 * function pour update un element dans la base de donnes 
+		 * and return
+		 * 1 :  L'adresse a été ajoutée avec success
+		 * 0 : Erreur d'insertion
+		 * -1 : Erreur champs vides
 		 */
 		
-		public function update($id_adr, $id_pers, $adr_voie, $adr_cp, $adr_ville){
+		public function update(){
 
 			if(!empty(trim($this->id_pers)) && 
 				!empty(trim($this->adr_voie)) && 
@@ -67,12 +74,12 @@
 				$state = $this->_connexion->update("CALL modifier_adresse('$this->id_adr','$this->id_pers','$this->adr_voie','$this->adr_cp','$this->adr_ville')");
 				
 				if($state){
-					echo "L'adresse a été ajoutée avec success";
+					return 1;
 				}else{
-					echo "Erreur d'insertion";
+					return 0;
 				}
 			}else{
-				echo "Erreur champs vides";
+				return -1;
 			}
 		}
 

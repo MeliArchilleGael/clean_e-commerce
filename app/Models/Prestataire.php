@@ -1,15 +1,13 @@
 <?php
+namespace App\Models;
 
-	require_once "DBconnect.php";
 	
 	class Prestataire extends Personne{
 
-		public function __construct($id = 0, $nom, $prenom, $phone, $email, $image, $type_pers, $password){
+		public function __construct(){
 			
-			parent::__construct($id, $nom, $prenom, $phone, $email, $image, $type_pers, $password);
+			parent::__construct();
 			
-			$db = new Database();
-						
 		}
 		
 		
@@ -23,7 +21,7 @@
 					if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
 						echo "L'adresse email '$email' est valide.";
 						
-						$req = $db->query_one("se_connecter('$email','$passwordCrypt')");
+						$req = $this->_connexion->query_one("se_connecter('$email','$passwordCrypt')");
 						 var_dump($req);
 						 
 						 return $req;
@@ -50,7 +48,7 @@
 					if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
 						echo "L'adresse email '$email' est valide.";
 					
-						$state = $db->insert("CALL ajouter_personne('$nom','$prenom','$email','$password','$phone','$image','$type_pers')");
+						$state = $this->_connexion->insert("CALL ajouter_personne('$nom','$prenom','$email','$password','$phone','$image','$type_pers')");
 						if($state){
 							echo "La catégorie a été ajoutée avec success";
 						}else{
@@ -80,7 +78,7 @@
 					if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
 						echo "L'adresse email '$email' est valide.";
 						$id = (int)$id;
-						$state = $db->update("CALL modifer_profil_pres('$id','$nom','$prenom','$email','$password','$phone','$image')");
+						$state = $this->_connexion->update("CALL modifer_profil_pres('$id','$nom','$prenom','$email','$password','$phone','$image')");
 						if($state){
 							echo "Modification effectuée avec success";
 						}else{
@@ -108,8 +106,3 @@
 		
 
 	}
-
-
-
-
-?>
