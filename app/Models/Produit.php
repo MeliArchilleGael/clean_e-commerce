@@ -86,7 +86,12 @@ use App\Model;
 		 * 0 : Erreur de modifications
 		 */
 		public function modifier_produit($ref, $id_cat, $id_pers, $labels, $prix, $quantite, $description, $image){
-			if(!empty(trim($labels)) && !empty(trim($prix)) && !empty(trim($quantite)) && !empty(trim($description)) && !empty(trim($image)) ){
+			if(!empty(trim($labels)) && 
+			!empty(trim($prix)) && 
+			!empty(trim($quantite)) && 
+			!empty(trim($description)) && 
+			!empty(trim($image)) )
+			{
 				$id_cat = (int)$id_cat;
 				$id_pers = (int)$id_pers;
 				$prix = (int)$prix;

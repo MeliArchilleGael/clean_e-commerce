@@ -92,7 +92,7 @@ class Personne extends Model
 	public function afficher_user($email)
 	{
 		if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-			echo "L'adresse email '$email' est valide.";
+
 			$result = $this->_connexion->query_one("CALL afficherID_user('$email')");
 			return $result;
 		} else {
