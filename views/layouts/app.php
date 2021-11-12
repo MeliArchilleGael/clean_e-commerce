@@ -42,7 +42,7 @@
                             <a class="nav-link fw-bold text-white" href="<?= URL . '/home/incription' ?>">Chariot
                                 <span class="badge bg-secondary">
                                     <?php
-                                    if (isset($_SESSION['chariot']) && !empty($_SESSION['chariot'][0])) {
+                                    if (isset($_SESSION['chariot'])) {
                                         echo count($_SESSION['chariot']);
                                     } else {
                                         echo 0;
@@ -100,7 +100,7 @@
         <?php
         if (isset($_SESSION['message']) && !empty($_SESSION['message'])) {
 
-            echo '<div class="container alert alert-danger text-center" style = "margin-bottom: 5px; margin-top: 30px;" ><h3> ' . $_SESSION['message'] . '</h3> </div>';
+            echo '<div class="alert alert-info text-center" style = "margin-bottom: 5px; margin-top: 30px;" ><h4> ' . $_SESSION['message'] . '</h3> </div>';
             unset($_SESSION['message']);
         }
         ?>

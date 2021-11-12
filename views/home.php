@@ -19,10 +19,13 @@
                             </div>
                         </div>
                         <div class="card-footer">
-                            <form action="" method="POST">
+                            <form action="<?= URL.'/chariot/AJouterAuChariot' ?>" method="POST">
                                 <div style="justify-content: space-between; display: flex;">
                                     <span>
                                         <input type="number" name="quantite" min="1" max="<?= $produit['QUANTITE'] ?>">
+                                    </span>
+                                    <span>
+                                        <input type="hidden" name="produit" value="<?= $produit['REF_PROD'] ?>">
                                     </span>
                                     <span><button class="btn btn-info" href="">AJouter au panier </button></span>
                                 </div>
