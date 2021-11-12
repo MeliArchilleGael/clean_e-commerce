@@ -62,4 +62,15 @@ class Login extends Controller
         header('Location:' . URL . '/home/login');
         exit();
     }
+    
+/**
+ * Logout a user  
+ */
+    public function logout(){
+        if(isset($_SESSION['user']) && !empty($_SESSION['user']['id'])){
+            unset($_SESSION['user']);
+        }
+        header('Location:' . URL . '/home/login');
+        exit();
+    }
 }
