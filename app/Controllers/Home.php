@@ -3,7 +3,7 @@
 namespace App\Controllers;
 
 use App\Controller;
-
+use App\Models\Produit;
 
 class Home extends Controller
 {
@@ -11,7 +11,9 @@ class Home extends Controller
     //retourne la vue principale 
     public function index()
     {
-        $this->render('home');
+        $produits = (new Produit)->getAll();
+        
+        $this->render('home', compact('produits'));
     }
 
     public function inscription(){
