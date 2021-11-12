@@ -46,7 +46,13 @@
                         <li class="nav-item">
                             <a class="nav-link fw-bold text-white" href="<?= URL . '/home/incription' ?>">Chariot
                                 <span class="badge bg-secondary">
-                                    4
+                                    <?php 
+                                        if(isset($_SESSION['chariot']) && !empty($_SESSION['chariot'][0])){
+                                            echo count($_SESSION['chariot']);
+                                        }else{
+                                            echo 0;
+                                        }
+                                    ?>
                                 </span>
                             </a>
                         </li>
