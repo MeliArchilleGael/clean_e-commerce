@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controllers;
 
 use App\Controller;
@@ -6,10 +7,11 @@ use App\Models\Personne;
 
 class Login extends Controller
 {
-    
+
     //check login and redirect user
 
-    public function checkLogin(){
+    public function checkLogin()
+    {
         session_start();
         $email = htmlspecialchars(isset($_POST['email']) ? htmlspecialchars($_POST['email']) : '');
         $password = htmlspecialchars(isset($_POST['password']) ? htmlspecialchars($_POST['password']) : '');
@@ -23,33 +25,37 @@ class Login extends Controller
 
                 $p->getPersonneByEmail_Password();
 
-                if($p->id_pers != null){
+                if ($p->id_pers != null) {
                     //save information about the user in session 
-                    $_SESSION['user'] = $p->id_pers;
+                    $_SESSION['user'] = [
+                        'id'=>$p->id_pers,
+                        'nom'=>$p->nom_pers,
+                        'telephone'=>$p->telephone,
+                        'email'=>$p->email,
+                        'image_pers'=>$p->image_pers,
+                        'type_pers'=>$p->type_pers,
+                    ];
+
+                    //login now redirect user according to his type
+                    if ($p->type_pers == 'Prestataire') {
+                        $_SESSION['message'] = 'you are login as a Prestatire';
+
+                    } elseif ($p->type_pers == 'Client') {
+                        $_SESSION['message'] = 'you are login as a client ';
+
+                    }
                     
-                   //login now redirect user according to his type
-                   if($p->type_pers == 'Prestataire'){
-                    var_dump('you are login as a Prestatire');
-                    die();
-
-                   }elseif($p->type_pers == 'Client') {
-                    var_dump('you are login as a client ');
-                    die();
-
-                   }else{
-                       session_abort();
-                   }
-                }else{
-                    var_dump('No watch records');
-                    die();
+                } else {
+                    $_SESSION['message'] = 'No watch records';
                 }
-            }else{
-                var_dump('empty password');
-                die();
+            } else {
+                $_SESSION['message'] = 'empty password';
             }
-        }else{
-            var_dump('empty email');
-            die();
+        } else {
+            $_SESSION['message'] = 'empty email';
         }
+        //redirection vers la page de login
+        header('Location:' . URL . '/home/login');
+        exit();
     }
 }

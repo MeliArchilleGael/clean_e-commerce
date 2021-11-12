@@ -72,7 +72,16 @@
     </div>
     <!-- ========== end =========-->
 
-
+    <!-- Display flash message -->
+    <div class="container">
+        <?php
+        if (isset($_SESSION['message']) && !empty($_SESSION['message'])) {
+            
+            echo '<div class="container alert alert-danger text-center" style = "margin-bottom: 5px; margin-top: 30px;" ><h3> ' . $_SESSION['message'] . '</h3> </div>';
+            unset($_SESSION['message']);
+        }
+        ?>
+    </div>
     <!-- ============ Body content start ============= -->
     <?php
     echo $content
