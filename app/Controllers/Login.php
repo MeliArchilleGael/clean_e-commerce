@@ -28,23 +28,27 @@ class Login extends Controller
                 if ($p->id_pers != null) {
                     //save information about the user in session 
                     $_SESSION['user'] = [
-                        'id'=>$p->id_pers,
-                        'nom'=>$p->nom_pers,
-                        'telephone'=>$p->telephone,
-                        'email'=>$p->email,
-                        'image_pers'=>$p->image_pers,
-                        'type_pers'=>$p->type_pers,
+                        'id' => $p->id_pers,
+                        'nom' => $p->nom_pers,
+                        'telephone' => $p->telephone,
+                        'email' => $p->email,
+                        'image_pers' => $p->image_pers,
+                        'type_pers' => $p->type_pers,
                     ];
 
                     //login now redirect user according to his type
                     if ($p->type_pers == 'Prestataire') {
                         $_SESSION['message'] = 'you are login as a Prestatire';
-
+                        
+                        //redirection vers la page d'acceuil 
+                        header('Location:' . URL . '/home');
+                        exit();
                     } elseif ($p->type_pers == 'Client') {
                         $_SESSION['message'] = 'you are login as a client ';
 
+                        //redirection vers la page d'acceuil 
+                        header('Location:' . URL . '/home');
                     }
-                    
                 } else {
                     $_SESSION['message'] = 'No watch records';
                 }
