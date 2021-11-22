@@ -39,7 +39,7 @@ class Adresse extends Model
 	 * 0 : Erreur d'insertion
 	 * -1 : Erreur champs vides
 	 */
-	public function insert()
+	public function insertAdr()
 	{
 		if (
 			!empty(trim($this->id_pers)) &&
@@ -48,8 +48,8 @@ class Adresse extends Model
 			!empty(trim($this->ville))
 		) {
 
-			$state = $this->_connexion->insert("CALL inserer_addresse(NULL,'$this->adr_voie','$this->adr_cp','$this->adr_ville')");
-
+			$req = $this->_connexion->prepare("CALL inserer_addresse(NULL,'$this->adr_voie','$this->adr_cp','$this->adr_ville')");
+			$state = $req->execute();
 			if ($state) {
 				return 1;
 			} else {
@@ -61,6 +61,30 @@ class Adresse extends Model
 	}
 
 	/**
+	 * function pour inserer un element dans la DB and return:
+	 * 1 : L'adresse a été ajoutée avec success
+	 * 0 : Erreur d'insertion
+	 * -1 : Erreur champs vides
+	 */
+
+	public function ajouter_adresse($id_pers, $adr_voie, $adr_cp, $adr_ville){
+		
+		if(!empty($id_pers) && !empty($adr_voie) && !empty($adr_cp) && !empty($adr_ville)){
+			$id_pers = (int)$id_pers;
+			$req = $this->_connexion->prepare("CALL inserer_addresse('$id_pers','$adr_voie','$adr_cp','$adr_ville')");
+			$state = $req->execute();
+			if($state){
+				return 1;
+			}else{
+				return 0;			}
+		}else{
+			return -1;
+		}
+	}
+	
+
+
+	/**
 	 * function pour update un element dans la base de donnes 
 	 * and return
 	 * 1 :  L'adresse a été ajoutée avec success
@@ -68,7 +92,7 @@ class Adresse extends Model
 	 * -1 : Erreur champs vides
 	 */
 
-	public function update()
+	public function updateAdr()
 	{
 
 		if (

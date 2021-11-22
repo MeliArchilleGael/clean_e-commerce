@@ -5,12 +5,13 @@
     <meta charset="utf-8">
 
     <link href="<?= URL . '/public/assets/css/styleconnect.css' ?>" rel="stylesheet">
+    <link href="<?= URL . '/public/assets/css/style.css' ?>" rel="stylesheet">
     <link href="<?= URL . '/public/assets/css/bootstrap.min.css' ?>" rel="stylesheet">
 
     <style>
         h4 {
             color: blue;
-            backgroud: red;
+          /* --  background: red; */
             text-align: center;
         }
     </style>
@@ -39,11 +40,11 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link fw-bold text-white" href="<?= URL . '/home/incription' ?>">Chariot
+                            <a class="nav-link fw-bold text-white" href="<?= URL . '/home/panier' ?>">Chariot
                                 <span class="badge bg-secondary">
                                     <?php
-                                    if (isset($_SESSION['chariot'])) {
-                                        echo count($_SESSION['chariot']);
+                                    if (isset($_SESSION['cart_item'])) {
+                                        echo count($_SESSION['cart_item']);
                                     } else {
                                         echo 0;
                                     }
@@ -69,11 +70,12 @@
                                 </ul>
                             </li>
                             <?php
-                            if ($_SESSION['user']['type_pers'] == 'Prestataire') {
+                            if ($_SESSION['user']['type_pers'] == 'PRESTATAIRE') {
                             ?>
                                 <li class="nav-item">
                                     <a class="nav-link active fw-bold text-white" href="<?= URL . '/home' ?>">Ajouter un Produit</a>
                                 </li>
+                             
                             <?php
                             }
                         } else {
@@ -109,7 +111,7 @@
     <?php
     echo $content
     ?>
-    <! /--============end Body content start=============-->
+    <!-- /--============end Body content start=============-->
 
 
         <script src="<?= URL . '/public/assets/js/bootstrap.bundle.min.js' ?>"></script>
