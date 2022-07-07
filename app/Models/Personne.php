@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Model;
+use Exception;
+use PDOException;
 
 class Personne extends Model
 {
@@ -87,19 +89,137 @@ class Personne extends Model
 	}
 
 
+	// CALL afficherID_user('meliyamtcheuloic@gmail.com','dgfheerttr');
 
-
-	public function afficher_user($email)
+	public function afficher_user($email,$password)
 	{
 		if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
 
-			$result = $this->_connexion->query_one("CALL afficherID_user('$email')");
+			$res = $this->_connexion->prepare("CALL afficherID_user('$email','$password')");
+			$res->execute();
+			$result = $res->fetch();
+			var_dump($result);
+			// die();
 			return $result;
 		} else {
 			echo "L'adresse email '$email' est invalide.";
 		}
 	}
 
+
+	/**
+	 * function pour inserer un element dans la DB and return:
+	 * 1 : L'adresse a été ajoutée avec success
+	 * 0 : Erreur d'insertion
+	 * -1 : Erreur champs vides
+	 */
+
+	public function inscription($nom, $prenom, $phone, $email, $image, $type_pers, $password){
+			
+			$res = $this->_connexion->prepare("CALL ajouter_personne('$nom','$prenom','$email','$password','$phone','$image','$type_pers')");
+			
+			$res1 = $this->_connexion->insert("CALL ajouter_personne('$nom','$prenom','$email','$password','$phone','$image','$type_pers')");
+			
+			try {
+				$this->_connexion->beginTransaction();
+				$state = $res->execute();
+				$id = $this->_connexion->lastInsertId();
+				//var_dump($id);
+				$this->_connexion->commit();
+				
+			} catch(PDOException $e) {
+				$this->_connexion->rollback();
+				print "Error!: " . $e->getMessage() . "</br>";
+			}
+
+			
+			//$id = $this->_connexion->lastInsertId();
+			
+			if ($state) 
+				return 1;
+			 else 
+				return 0;
+	}
+
+	public function order($id_user){
+		if(!empty($id_user)){
+			$id_user = (int)$id_user;
+			try{
+				$req = $this->_connexion->prepare("CALL ajouter_commande('$id_user', now())");
+				$this->_connexion->beginTransaction();
+				$req->execute();
+				$sql = "SELECT LAST_INSERT_ID() AS id_cmde";
+				$r = $this->_connexion->prepare($sql);
+				$r->execute();
+				$id_cmde = $r->fetch();
+				$state = $this->_connexion->commit();
+				// var_dump($state);
+				// var_dump($id_cmde["id_cmde"]);
+				// die();
+			} catch(PDOException $e) {
+				$this->_connexion->rollback();
+				print "Error!: " . $e->getMessage() . "</br>";
+			}
+			
+			if($state){
+				// recuperation de l'identifiant de la commande
+				return $id_cmde["id_cmde"];
+			}else{
+				return 0;
+			}
+
+		}else{
+			return -1;
+		}
+
+	}
+
+
+	public function order_all($id_cmde,$ref_prod,$qte_cmde,$prix_cmde){
+		if(!empty($id_cmde) && !empty($ref_prod) && !empty($qte_cmde) && !empty($prix_cmde)){
+			$id_cmde = (int)$id_cmde;
+			$qte_cmde = (int)$qte_cmde;
+			$prix_cmde = (int)$prix_cmde;
+			try{
+				$result = $this->_connexion->prepare("CALL inserer_posseder('$id_cmde','$ref_prod','$qte_cmde','$prix_cmde')");
+				$this->_connexion->beginTransaction();
+				$result->execute();
+				$state = $this->_connexion->commit();
+			    //var_dump($state);
+				//die();
+			}catch(PDOException $e){
+				$this->_connexion->rollback();
+				print "Error!: " . $e->getMessage() . "</br>";
+			}
+			
+			if($state){
+				return 1;
+			}else{
+				return 0;
+			}
+
+		}else{
+			return -1;
+		}
+
+	}
+
+	public function update_stock($id_cmde,$ref_prod){
+		if (!empty($id_cmde) && !empty($ref_prod)){
+			$id_cmde = (int)$id_cmde;
+			$res = $this->_connexion->prepare("CALL update_stock_produit('$id_cmde','$ref_prod')");
+			$state = $res->execute();
+			if ($state){
+				return 1;
+			}else{
+				return 0;
+			}
+		}else{
+			return -1;
+		}
+	}
+
+	
 	public function getIdPers()
 	{
 		return $this->id_pers;

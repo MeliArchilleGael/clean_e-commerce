@@ -2,7 +2,7 @@
 		<div class="row">
 			<!--  <div class="col-md-4 offset-md-4">  -->
 			<div class="login-form bg-light mt-4 p-4">
-				<form action="#" method="post" class="row g-3 " enctype="multipart/form-data">
+				<form action="<?=  URL.'/Inscription/inscrire' ?>" method="post" class="row g-3 " enctype="multipart/form-data">
 					<h4>INSCRIPTION</h4>
 
 					<div class="col-md-6 col-sm">

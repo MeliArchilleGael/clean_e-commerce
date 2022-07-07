@@ -2,6 +2,8 @@
 //namespace app\Models;
 namespace App;
 
+use PDO;
+
 abstract class Model {
     //information de connection
     private $host = "localhost";
@@ -73,6 +75,60 @@ abstract class Model {
 
         return $query->fetch();
     }
+
+
+     /**
+     * get all instace of the object
+     * @return 
+     */
+    public function query($sql){
+
+        $req = $this->_connexion->prepare($sql);
+        $req->execute();
+        return $req->fetchAll();
+    }
+    
+     /**
+     * get one instace of the object
+     * @return 
+     */
+    public function query_one($sql){
+        
+        $req = $this->_connexion->prepare($sql);
+        $req->execute();
+        return $req->fetch();
+    }
+    
+     /**
+     * insert the object
+     * @return 
+     */
+    public function insert($sql){
+        $req = $this->_connexion->prepare($sql); 
+        return $req->execute();
+    }
+    
+
+    /**
+     * update the object
+     * @return 
+     */
+    public function update($sql){
+        $req = $this->_connexion->prepare($sql); 
+        return $req->execute();
+        
+    }
+    
+    /**
+     * delete the object
+     * @return 
+     */
+    public function supprimer($sql){
+        $req = $this->_connexion->prepare($sql); 
+        return $req->execute();
+    }
+    
+
 
     
 

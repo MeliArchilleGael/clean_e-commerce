@@ -71,6 +71,38 @@ use App\Model;
 			
 			
 		}
+
+
+		public function select_all(){
+			$result = $this->_connexion->query("CALL select_all_product()");
+			// var_dump($result);
+            return $result;			
+		}
+
+		public function selectOneProduct2($ref_prod){
+			if(!empty(trim($ref_prod))){
+				$result = $this->_connexion->query_one("CALL afficher_product_by_ref_prod('$ref_prod')");
+				var_dump($result);
+				return $result;
+								
+			}else{
+				echo "Reference produit vide";
+			}
+	
+		}
+
+		public function selectOneProduct($ref_prod){
+			if(!empty(trim($ref_prod))){
+				$req = $this->_connexion->prepare("CALL afficher_product_by_ref_prod('$ref_prod')");
+				$req->execute();
+				$result = $req->fetch();
+				// var_dump($result);
+				return $result;
+			
+			}else{
+
+			}	
+		}
 		
 		
 		public function afficher_produit($id_cat){

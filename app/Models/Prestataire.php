@@ -21,8 +21,10 @@ namespace App\Models;
 					if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
 						echo "L'adresse email '$email' est valide.";
 						
-						$req = $this->_connexion->query_one("se_connecter('$email','$passwordCrypt')");
-						 var_dump($req);
+						$res = $this->_connexion->prepare("se_connecter('$email','$passwordCrypt')");
+						$res->execute();
+						$req = $res->fetch();
+						var_dump($req);
 						 
 						 return $req;
 						 
@@ -48,7 +50,8 @@ namespace App\Models;
 					if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
 						echo "L'adresse email '$email' est valide.";
 					
-						$state = $this->_connexion->insert("CALL ajouter_personne('$nom','$prenom','$email','$password','$phone','$image','$type_pers')");
+						$res = $this->_connexion->prepare("CALL ajouter_personne('$nom','$prenom','$email','$password','$phone','$image','$type_pers')");
+						$state = $res->execute();
 						if($state){
 							echo "La catégorie a été ajoutée avec success";
 						}else{
@@ -78,7 +81,8 @@ namespace App\Models;
 					if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
 						echo "L'adresse email '$email' est valide.";
 						$id = (int)$id;
-						$state = $this->_connexion->update("CALL modifer_profil_pres('$id','$nom','$prenom','$email','$password','$phone','$image')");
+						$res = $this->_connexion->prepare("CALL modifer_profil_pres('$id','$nom','$prenom','$email','$password','$phone','$image')");
+						$state = $res->execute();
 						if($state){
 							echo "Modification effectuée avec success";
 						}else{
@@ -95,13 +99,7 @@ namespace App\Models;
 			}
 			
 		}
-		
-		public function gerer_produit(){
-			
-			
-		}
-		
-		
+				
 		
 		
 

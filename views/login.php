@@ -12,7 +12,7 @@
 				<label for="password">Mot de Passe</label>
 				<input type="password" name="password" placeholder="Mot de passe" required="required"/>
                 <button type="submit"  name="connexion">Connexion</button>
-                <button type="submit"><a href="inscription.php">S'inscrire</a></button>
+                <button type="submit"><a href="<?= URL.'/home/inscription' ?> ">S'inscrire</a></button>
             </form>
           </div>
         </section>
