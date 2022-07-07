@@ -77,6 +77,10 @@ abstract class Model {
     }
 
 
+     /**
+     * get all instace of the object
+     * @return 
+     */
     public function query($sql){
 
         $req = $this->_connexion->prepare($sql);
@@ -84,6 +88,10 @@ abstract class Model {
         return $req->fetchAll();
     }
     
+     /**
+     * get one instace of the object
+     * @return 
+     */
     public function query_one($sql){
         
         $req = $this->_connexion->prepare($sql);
@@ -91,17 +99,30 @@ abstract class Model {
         return $req->fetch();
     }
     
+     /**
+     * insert the object
+     * @return 
+     */
     public function insert($sql){
         $req = $this->_connexion->prepare($sql); 
         return $req->execute();
     }
     
+
+    /**
+     * update the object
+     * @return 
+     */
     public function update($sql){
         $req = $this->_connexion->prepare($sql); 
         return $req->execute();
         
     }
     
+    /**
+     * delete the object
+     * @return 
+     */
     public function supprimer($sql){
         $req = $this->_connexion->prepare($sql); 
         return $req->execute();

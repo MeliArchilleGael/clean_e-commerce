@@ -168,21 +168,22 @@ class Chariot extends Controller
                     // var_dump($res); die();                    
                 }
                 if($res){
-                    // update quantité en stock de la quantité commandée  
+  /*                  // update quantité en stock de la quantité commandée  
                     foreach($_SESSION["cart_item"] as $item){
                         $ref_prod = $item["code"];
                         $rq = $pers->update_stock($id_cmde,$ref_prod);
                     }
-
-                    if($rq){
+*/
+                   // if($rq){
 
                     $_SESSION['message'] = "Commande effectuée avec success!!";
                     // on vide le panier et effectue une redirection vers la page d'acceuil
                     unset($_SESSION["cart_item"]);
                    // header('Location:' . URL . '/home');
-                }else{
+                
+               /* else{
                     $_SESSION['message'] = "Error de modification des quantitées en stocks";
-                }
+                } */
                 }
             }else{
                 $_SESSION['message'] = "Empty cart";

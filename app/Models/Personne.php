@@ -118,6 +118,8 @@ class Personne extends Model
 			
 			$res = $this->_connexion->prepare("CALL ajouter_personne('$nom','$prenom','$email','$password','$phone','$image','$type_pers')");
 			
+			$res1 = $this->_connexion->insert("CALL ajouter_personne('$nom','$prenom','$email','$password','$phone','$image','$type_pers')");
+			
 			try {
 				$this->_connexion->beginTransaction();
 				$state = $res->execute();

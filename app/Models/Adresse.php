@@ -104,7 +104,7 @@ class Adresse extends Model
 
 			$id_pers = (int)$this->id_pers;
 			$state = $this->_connexion->update("CALL modifier_adresse('$this->id_adr','$this->id_pers','$this->adr_voie','$this->adr_cp','$this->adr_ville')");
-
+			// $this->_connexion->query("");
 			if ($state) {
 				return 1;
 			} else {
